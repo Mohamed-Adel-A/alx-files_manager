@@ -38,7 +38,7 @@ const UsersController = {
     return res.status(201).json({ id: result.insertedId, email: newUser.email });
   },
 
- async getMe(req, res) {
+  async getMe(req, res) {
     const token = req.headers['X-Token'];
     if (!token) {
       return res.status(401).json({ error: 'Unauthorized' });
