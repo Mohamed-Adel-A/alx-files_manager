@@ -50,5 +50,7 @@ class RedisClient {
     const redisDel = promisify(this.client.del).bind(this.client);
     await redisDel(redisKey);
   }
+}
 
-  }
+export const redisClient = new RedisClient();
+export default redisClient;
