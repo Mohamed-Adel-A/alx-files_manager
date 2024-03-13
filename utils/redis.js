@@ -33,7 +33,6 @@ class RedisClient {
     await redisSet(redisKey, redisValue);
     await this.client.expire(redisKey, time);
   }
-  
 
   /**
    * Get value by key
@@ -44,5 +43,12 @@ class RedisClient {
     return redisValue;
   }
 
-  
+  /**
+   * delete key and value from redis
+   */
+  async del(redisKey) {
+    const redisDel = promisify(this.client.del).bind(this.client);
+    await redisDel(redisKey);
+  }
+
   }
