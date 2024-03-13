@@ -38,6 +38,7 @@ const FilesController = {
       return res.status(400).json({ error: 'Missing data' });
     }
 
+    console.log(name);
     console.log(parentId);
     if (parentId !== 0) {
       const parentObjId = new ObjectID(parentId);
