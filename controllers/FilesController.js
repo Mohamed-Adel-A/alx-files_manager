@@ -9,11 +9,11 @@ const FOLDER_PATH = process.env.FOLDER_PATH || '/tmp/files_manager';
 
 const FilesController = {
   async postUpload(req, res) {
-    const { name } req.body;
-    const { type } req.body;
-    const { data } req.body;
-    const { parentId } req.body || 0;
-    const { isPublic } req.body || false;
+    const { name } = req.body;
+    const { type } = req.body;
+    const { data } = req.body;
+    const { parentId } = req.body || 0;
+    const { isPublic } = req.body || false;
     
     const token = req.headers['x-token'];
 
