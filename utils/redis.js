@@ -1,7 +1,7 @@
 import { promisify } from 'util';
 import { createClient } from 'redis';
 
-
+// redis clinet module
 class RedisClient {
   /**
    * create new clint
