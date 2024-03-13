@@ -34,6 +34,7 @@ const AuthController = {
   // sign-out the user based on the token
   async getDisconnect(req, res) {
     const token = req.headers['X-Token'];
+    console.log(token);
     if (!token) {
       return res.status(401).json({ error: 'Unauthorized no token' });
     }
