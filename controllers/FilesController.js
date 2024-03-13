@@ -38,10 +38,7 @@ const FilesController = {
       return res.status(400).json({ error: 'Missing data' });
     }
 
-    console.log(name);
-    if (parentId === parentId) parentId = 0;
-    console.log(parentId);
-    if (parentId !== 0) {
+    if (parentId) {
       const parentObjId = new ObjectID(parentId);
       const parentFile = await dbClient.client.db().collection('files').findOne({ _id: parentObjId });
       if (!parentFile) {
@@ -65,7 +62,7 @@ const FilesController = {
       name,
       type,
       isPublic,
-      parentId,
+      parentId: parentId || 0,
       localPath: type !== 'folder' ? localPath : null,
     };
 
