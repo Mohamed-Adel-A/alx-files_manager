@@ -54,8 +54,16 @@ const FilesController = {
       const fileContent = Buffer.from(data, 'base64');
       const fileId = uuidv4();
       localPath = path.join(FOLDER_PATH, fileId);
-      fs.mkdirSync(FOLDER_PATH);
-      fs.writeFileSync(localPath, fileContent);
+      try {
+        try {
+        fs.mkdirSync(FOLDER_PATH);
+        } catch {
+          // the dir is alerady exist
+        }
+        fs.writeFileSync(localPath, fileContent);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const newFile = {
