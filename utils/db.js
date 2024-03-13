@@ -10,7 +10,7 @@ class DBClient {
   // constructor to create new connection
   constructor() {
     this.client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
-    this.client.connect()
+    this.client.connect();
   }
 
   // check if connection is alive
