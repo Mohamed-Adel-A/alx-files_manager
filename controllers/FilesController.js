@@ -12,7 +12,7 @@ const FilesController = {
     const { name } = req.body;
     const { type } = req.body;
     const { data } = req.body;
-    const { parentId } = req.body || 0;
+    const { parentId } = req.body;
     const { isPublic } = req.body || false;
 
     const token = req.headers['x-token'];
@@ -39,6 +39,7 @@ const FilesController = {
     }
 
     console.log(name);
+    if (parentId === parentId) parentId = 0;
     console.log(parentId);
     if (parentId !== 0) {
       const parentObjId = new ObjectID(parentId);
