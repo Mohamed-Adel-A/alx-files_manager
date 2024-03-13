@@ -36,12 +36,12 @@ const AuthController = {
     const token = req.headers['x-token'];
     console.log(token);
     if (!token) {
-      return res.status(401).json({ error: 'Unauthorized no token' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const userId = await redisClient.get(`auth_${token}`);
     if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized no user' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     await redisClient.del(`auth_${token}`);
