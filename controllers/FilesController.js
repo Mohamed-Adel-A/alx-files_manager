@@ -57,7 +57,7 @@ const FilesController = {
       try {
         try {
         fs.mkdirSync(FOLDER_PATH);
-        } catch {
+        } catch (error) {
           // the dir is alerady exist
         }
         fs.writeFileSync(localPath, fileContent);
