@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 import path from 'path';
+import { ObjectID } from 'mongodb';
 import { dbClient } from '../utils/db';
 import { redisClient } from '../utils/redis';
 
@@ -8,9 +9,12 @@ const FOLDER_PATH = process.env.FOLDER_PATH || '/tmp/files_manager';
 
 const FilesController = {
   async postUpload(req, res) {
-    const {
-      name, type, data, parentId = 0, isPublic = false,
-    } = req.body;
+    const { name } req.body;
+    const { type } req.body;
+    const { data } req.body;
+    const { parentId } req.body || 0;
+    const { isPublic } req.body || false;
+    
     const token = req.headers['x-token'];
 
     if (!token) {
@@ -34,12 +38,13 @@ const FilesController = {
       return res.status(400).json({ error: 'Missing data' });
     }
 
-    if (parentId !== 0) {
-      const parentFile = await dbClient.client.db().collection('files').findOne({ _id: parentId });
+    if (parentId != 0) {
+      const parentObjId = new ObjectID(parentId);
+      const parentFile = await dbClient.client.db().collection('files').findOne({ _id: parentObjId });
       if (!parentFile) {
         return res.status(400).json({ error: 'Parent not found' });
       }
-      if (parentFile.type !== 'folder') {
+      if (parentFile.type != 'folder') {
         return res.status(400).json({ error: 'Parent is not a folder' });
       }
     }
