@@ -56,7 +56,7 @@ const FilesController = {
       localPath = path.join(FOLDER_PATH, fileId);
       try {
         try {
-        fs.mkdirSync(FOLDER_PATH);
+          fs.mkdirSync(FOLDER_PATH);
         } catch (error) {
           // the dir is alerady exist
         }
