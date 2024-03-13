@@ -6,7 +6,7 @@ import { dbClient } from '../utils/db';
 const AuthController = {
   // sign-in the user by generating a new authentication token
   async getConnect(req, res) {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.header('Authorization');
     if (!authHeader || !authHeader.startsWith('Basic ')) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
