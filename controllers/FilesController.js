@@ -9,7 +9,7 @@ const FOLDER_PATH = process.env.FOLDER_PATH || '/tmp/files_manager';
 const FilesController = {
   async postUpload(req, res) {
     const {
-      name, type, data, parentId = 0, isPublic = false
+      name, type, data, parentId = 0, isPublic = false,
     } = req.body;
     const token = req.headers['x-token'];
 
