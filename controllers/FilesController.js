@@ -14,7 +14,7 @@ const FilesController = {
     const { data } = req.body;
     const { parentId } = req.body || 0;
     const { isPublic } = req.body || false;
-    
+
     const token = req.headers['x-token'];
 
     if (!token) {
@@ -38,13 +38,13 @@ const FilesController = {
       return res.status(400).json({ error: 'Missing data' });
     }
 
-    if (parentId != 0) {
+    if (parentId !=+ 0) {
       const parentObjId = new ObjectID(parentId);
       const parentFile = await dbClient.client.db().collection('files').findOne({ _id: parentObjId });
       if (!parentFile) {
         return res.status(400).json({ error: 'Parent not found' });
       }
-      if (parentFile.type != 'folder') {
+      if (parentFile.type !== 'folder') {
         return res.status(400).json({ error: 'Parent is not a folder' });
       }
     }
