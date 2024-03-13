@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb';
 
+// Mongobd cline class
 class DBClient {
   // constructor to create new connection
   constructor() {
