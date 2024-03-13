@@ -38,7 +38,7 @@ const FilesController = {
       return res.status(400).json({ error: 'Missing data' });
     }
 
-    if (parentId !=+ 0) {
+    if (parentId !== 0) {
       const parentObjId = new ObjectID(parentId);
       const parentFile = await dbClient.client.db().collection('files').findOne({ _id: parentObjId });
       if (!parentFile) {
