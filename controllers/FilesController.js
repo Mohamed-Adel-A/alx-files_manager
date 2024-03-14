@@ -125,8 +125,10 @@ const FilesController = {
     const skip = page * 20;
     const limit = 20;
 
+    const userObjId = new ObjectID(userId);
+    const parentObjId = new ObjectID(parentId);
     const files = await dbClient.client.db().collection('files').aggregate([
-      { $match: { parentId, userId } },
+      { $match: { parentObjId, userObjId } },
       { $skip: skip },
       { $limit: limit },
     ]).toArray();
