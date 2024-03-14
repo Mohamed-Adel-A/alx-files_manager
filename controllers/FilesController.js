@@ -109,45 +109,52 @@ const FilesController = {
     return res.json(file);
   },
 
-  async getIndex(req, res) {
-    const token = req.headers['x-token'];
-
-    if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
+  async getIndex(request, response) {
+    const user = await FilesController.getUser(request);
+    if (!user) {
+      return response.status(401).json({ error: 'Unauthorized' });
     }
-
-    const userId = await redisClient.get(`auth_${token}`);
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    const { parentId } =  req.query;
-    const { pageNum } =  req.query;
-    const page = pageNum || 0;
-    const skip = page * 20;
-    const limit = 20;
-
-    const userObjId = new ObjectID(userId);
-    let matchQuery;
-    if (parentId) {
-      const parentObjId = new ObjectID(parentId);
-      matchQuery = {parentId: parentObjId, userId: userObjId };
+    const {
+      parentId,
+      page,
+    } = request.query;
+    const pageNum = page || 0;
+    const files = dbClient.db.collection('files');
+    let query;
+    if (!parentId) {
+      query = { userId: user._id };
     } else {
-      matchQuery = { userId: userObjId };
+      query = { userId: user._id, parentId: ObjectID(parentId) };
     }
-
-    const files = await dbClient.client.db().collection('files').aggregate([
-      { $match: matchQuery },
-      { $sort: { _id: -1 } },
-      {
-        $facet: {
-          metadata: [{ $count: 'total' }, { $addFields: { page: parseInt(page, 10) } }],
-          data: [{ $skip: 20 * parseInt(page, 10) }, { $limit: 20 }],
+    files.aggregate(
+      [
+        { $match: query },
+        { $sort: { _id: -1 } },
+        {
+          $facet: {
+            metadata: [{ $count: 'total' }, { $addFields: { page: parseInt(pageNum, 10) } }],
+            data: [{ $skip: 20 * parseInt(pageNum, 10) }, { $limit: 20 }],
+          },
         },
-      },
-    ]).toArray();
-
-    return res.json(files);
+      ],
+    ).toArray((err, result) => {
+      if (result) {
+        const final = result[0].data.map((file) => {
+          const tmpFile = {
+            ...file,
+            id: file._id,
+          };
+          delete tmpFile._id;
+          delete tmpFile.localPath;
+          return tmpFile;
+        });
+        // console.log(final);
+        return response.status(200).json(final);
+      }
+      console.log('Error occured');
+      return response.status(404).json({ error: 'Not found' });
+    });
+    return null;
   },
 };
 
