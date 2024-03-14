@@ -114,7 +114,7 @@ const FilesController = {
     const key = `auth_${token}`;
     const userId = await redisClient.get(key);
     if (userId) {
-      const users = dbClient.client.db().collection('users');
+      const users = await dbClient.client.db().collection('users');
       const idObject = new ObjectID(userId);
       const user = await users.findOne({ _id: idObject });
     }
