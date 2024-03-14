@@ -137,7 +137,7 @@ const FilesController = {
     }
 
     const files = await dbClient.client.db().collection('files').aggregate([
-      { $match: query },
+      { $match: matchQuery },
       { $sort: { _id: -1 } },
       {
         $facet: {
