@@ -134,7 +134,9 @@ const FilesController = {
       const parentObjId = new ObjectID(parentId);
       matchQuery = {parentId: parentObjId, userId: userObjId };
     } else {
+      console.log(userObjId);
       matchQuery = { userId: userObjId };
+      console.log(matchQuery);
     }
 
     const files = await dbClient.client.db().collection('files').aggregate([
