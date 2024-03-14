@@ -1,4 +1,3 @@
-
 import Bull from 'bull';
 import { dbClient } from './utils/db';
 import { generateThumbnail } from 'image-thumbnail';
