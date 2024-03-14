@@ -10,7 +10,11 @@ class DBClient {
   // constructor to create new connection
   constructor() {
     this.client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true });
-    this.client.connect();
+    this.client.connect().then(() => {
+      this.db = this.client.db(`${database}`);
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   // check if connection is alive
