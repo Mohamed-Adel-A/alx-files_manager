@@ -128,11 +128,13 @@ const FilesController = {
     const limit = 20;
 
     const userObjId = new ObjectID(userId);
-    if (!parentId) {
-      matchQuery = { userId: userObjId };
-    } else {
+    console.log(userObjId);
+    console.log(parentId);
+    if (parentId) {
       const parentObjId = new ObjectID(parentId);
       matchQuery = {parentId: parentObjId, userId: userObjId };
+    } else {
+      matchQuery = { userId: userObjId };
     }
 
     const files = await dbClient.client.db().collection('files').aggregate([
