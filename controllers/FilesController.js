@@ -121,19 +121,22 @@ const FilesController = {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const { parentId = '0', page = 0 } = req.query;
+    const { parentId } =  req.query;
+    const { pageNum } =  req.query;
+    const page = pageNum || 0;
     const skip = page * 20;
     const limit = 20;
 
     const userObjId = new ObjectID(userId);
-    const parentObjId = new ObjectID(parentId);
-    console.log(parentId);
-    console.log(page);
-    console.log(userObjId);
-    console.log(parentObjId);
-    
+    if (!parentId) {
+      matchQuery = { userId: userObjId };
+    } else {
+      const parentObjId = new ObjectID(parentId);
+      matchQuery = {parentId: parentObjId, userId: userObjId };
+    }
+
     const files = await dbClient.client.db().collection('files').aggregate([
-      { $match: { parentId: parentObjId, userId: userObjId } },
+      { $match: matchQuery },
       { $skip: skip },
       { $limit: limit },
     ]).toArray();
