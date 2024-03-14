@@ -114,7 +114,7 @@ const FilesController = {
     const key = `auth_${token}`;
     const userId = await redisClient.get(key);
     if (userId) {
-      const users = dbClient.db.collection('users');
+      const users = dbClient.client.db().collection('users');
       const idObject = new ObjectID(userId);
       const user = await users.findOne({ _id: idObject });
     }
@@ -127,7 +127,7 @@ const FilesController = {
       page,
     } = request.query;
     const pageNum = page || 0;
-    const files = dbClient.db.collection('files');
+    const files = dbClient.client.db().collection('files');
     let query;
     if (!parentId) {
       query = { userId: user._id };
