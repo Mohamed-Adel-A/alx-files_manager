@@ -127,8 +127,9 @@ const FilesController = {
 
     const userObjId = new ObjectID(userId);
     const parentObjId = new ObjectID(parentId);
+    
     const files = await dbClient.client.db().collection('files').aggregate([
-      { $match: { parentObjId, userObjId } },
+      { $match: { parentId: parentObjId, userId: userObjId } },
       { $skip: skip },
       { $limit: limit },
     ]).toArray();
