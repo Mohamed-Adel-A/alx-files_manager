@@ -137,9 +137,14 @@ const FilesController = {
     }
 
     const files = await dbClient.client.db().collection('files').aggregate([
-      { $match: matchQuery },
-      { $skip: skip },
-      { $limit: limit },
+      { $match: query },
+      { $sort: { _id: -1 } },
+      {
+        $facet: {
+          metadata: [{ $count: 'total' }, { $addFields: { page: parseInt(page, 10) } }],
+          data: [{ $skip: 20 * parseInt(page, 10) }, { $limit: 20 }],
+        },
+      },
     ]).toArray();
 
     return res.json(files);
