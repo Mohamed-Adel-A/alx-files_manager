@@ -127,6 +127,10 @@ const FilesController = {
 
     const userObjId = new ObjectID(userId);
     const parentObjId = new ObjectID(parentId);
+    console.log(parentId);
+    console.log(page);
+    console.log(userObjId);
+    console.log(parentObjId);
     
     const files = await dbClient.client.db().collection('files').aggregate([
       { $match: { parentId: parentObjId, userId: userObjId } },
